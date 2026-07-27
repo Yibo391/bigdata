@@ -1,0 +1,12 @@
+pandas
+openpyxl
+numpy
+scikit-learn
+torch
+transformers
+datasets
+accelerate
+evaluate
+ipywidgets
+jupyter
+notebook
