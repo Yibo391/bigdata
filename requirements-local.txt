@@ -1,12 +1,17 @@
 pandas
 openpyxl
 numpy
+scipy
 scikit-learn
+joblib
 torch
 transformers
 datasets
 accelerate
 evaluate
+tqdm
+sentencepiece
+protobuf
 ipywidgets
 jupyter
 notebook
