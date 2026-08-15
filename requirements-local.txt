@@ -12,6 +12,7 @@ evaluate
 tqdm
 sentencepiece
 protobuf
+mlx-lm; platform_system == "Darwin"
 ipywidgets
 jupyter
 notebook

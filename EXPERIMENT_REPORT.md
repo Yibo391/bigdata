@@ -24,6 +24,8 @@ The best reproducible submission path in this repository is currently:
 
 V4 was not completed, and V5 was stopped after weak partial validation results around 0.28. Neither should be presented as the final method.
 
+V6 is a later lightweight experiment that blends balanced Linear SVM text rankings with V3. It improved the same-style selected local score to about 0.4611, but its stricter nested estimate was lower; it should therefore be treated as promising but not yet leaderboard-confirmed.
+
 ## 2. Why the methods changed
 
 The project changed methods because local experiments exposed different weaknesses at each stage.
@@ -197,6 +199,26 @@ V5 used DeBERTa-v3-base, multi-label-balanced user folds, capped rare-example sa
 - Partial scores were substantially below V2/V3.
 - The experiment was stopped and must not be used for the final submission.
 
+### 4.8 V6 lightweight SVM ensemble — experimental
+
+Implemented in `v6_svm_factor_ensemble.py` and `v6_svm_factor_ensemble_training.ipynb`.
+
+V6 trains balanced Linear SVM classifiers over word and character TF-IDF for three regularization values. It converts the margins into per-label ranks and selectively blends them with the strongest saved V3 semantic run. Training takes seconds rather than hours. In the saved local experiment, V3 scored approximately 0.4540 with fixed prevalence, while the selected V6 blend scored approximately 0.4621 fixed and 0.4611 calibrated.
+
+**Advantages**
+
+- Very fast and CPU-friendly.
+- Adds margin-based rankings that differ from V2 logistic regression.
+- Reuses V3 and requires no transformer fine-tuning.
+- Improves the selected local validation score by roughly 0.7–0.8 Macro F1 points.
+
+**Disadvantages**
+
+- Linear SVM alone is weaker than V3.
+- Per-label blend selection can overfit rare labels.
+- The stricter nested blend score was about 0.4430, below V3, so the apparent improvement is not guaranteed to transfer to the leaderboard.
+- It has not yet been used for an official submission.
+
 ## 5. File guide
 
 ### Data and environment
@@ -233,6 +255,8 @@ V5 used DeBERTa-v3-base, multi-label-balanced user folds, capped rare-example sa
 | `v4_finetuned_factor_training.ipynb` | Resumable V4 training | Incomplete; not final. |
 | `v5_deberta_rare_factor.py` | DeBERTa and rare-label experiment | Failed experiment. |
 | `v5_deberta_rare_factor_training.ipynb` | Resumable V5 training | Stopped at about 0.28; do not continue for the final system. |
+| `v6_svm_factor_ensemble.py` | Lightweight Linear SVM and V3 factor ensemble | Experimental low-cost improvement. |
+| `v6_svm_factor_ensemble_training.ipynb` | Runs V6 five-fold evaluation | Fast; no submission generation. |
 
 ### Submission and documentation
 
